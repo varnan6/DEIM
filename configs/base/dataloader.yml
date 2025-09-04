@@ -1,4 +1,3 @@
-
 train_dataloader:
   dataset:
     transforms:
@@ -8,32 +7,31 @@ train_dataloader:
         - {type: RandomIoUCrop, p: 0.8}
         - {type: SanitizeBoundingBoxes, min_size: 1}
         - {type: RandomHorizontalFlip}
-        - {type: Resize, size: [640, 640], }
+        - {type: Resize, size: [640, 640]}   # 👈 keep fixed size for fairness
         - {type: SanitizeBoundingBoxes, min_size: 1}
         - {type: ConvertPILImage, dtype: 'float32', scale: True}
         - {type: ConvertBoxes, fmt: 'cxcywh', normalize: True}
       policy:
         name: stop_epoch
-        epoch: 72 # epoch in [71, ~) stop `ops`
+        epoch: 25    # 👈 sync with flat_epoch (50 total → 25 is halfway)
         ops: ['Mosaic', 'RandomPhotometricDistort', 'RandomZoomOut', 'RandomIoUCrop']
 
   collate_fn:
     type: BatchImageCollateFunction
     base_size: 640
-    base_size_repeat: 3
-    stop_epoch: 72 # epoch in [72, ~) stop `multiscales`
+    base_size_repeat: 1   # 👈 disable multi-scale, fairness across models
+    stop_epoch: 25        # 👈 match with policy above
 
   shuffle: True
-  total_batch_size: 32 # total batch size equals to 32 (4 * 8)
-  num_workers: 4
-
+  total_batch_size: 16   # 👈 safe universal batch size (fits all models on 4090)
+  num_workers: 8         # 👈 enough parallelism, stable on your CPU
 
 val_dataloader:
   dataset:
     transforms:
       ops:
-        - {type: Resize, size: [640, 640], }
+        - {type: Resize, size: [640, 640]}
         - {type: ConvertPILImage, dtype: 'float32', scale: True}
   shuffle: False
-  total_batch_size: 64
-  num_workers: 4
+  total_batch_size: 64   # 👈 inference is lighter, keep 64
+  num_workers: 8
