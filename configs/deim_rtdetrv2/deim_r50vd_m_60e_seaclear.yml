@@ -17,9 +17,13 @@ optimizer:
   weight_decay: 0.0001
 
 # DEIM training schedule
-epoches: 60
-flat_epoch: 34
-no_aug_epoch: 2
+epoches: 150         # total epochs
+flat_epoch: 34       # learning rate stays constant for first 34 epochs
+no_aug_epoch: 2      # last 2 epochs without augmentation
+
+early_stopping:
+  metric: 'mAP'      # validation metric to monitor
+  patience: 10       # stop if no improvement for 10 epochs
 
 train_dataloader:
   dataset:
@@ -28,4 +32,4 @@ train_dataloader:
         epoch: [4, 34, 58]   # augmentation schedule
   collate_fn:
     mixup_epochs: [4, 34]
-    stop_epoch: 58
+    stop_epoch: 58           # end of augmentation stage

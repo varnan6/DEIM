@@ -21,17 +21,21 @@ optimizer:
   weight_decay: 0.0001
 
 # Shared protocol schedule
-epoches: 50          # 👈 was 102 → now 50
-flat_epoch: 25       # 👈 halfway point
-no_aug_epoch: 5      # 👈 last 5 epochs w/o aug
+epoches: 150          # max epochs
+flat_epoch: 10        # halfway point
+no_aug_epoch: 2       # last 2 epochs w/o aug
+
+early_stopping:
+  metric: 'mAP'       # validation metric to monitor
+  patience: 10        # stop if no improvement for 10 epochs
 
 ## DataAug (shared protocol)
 train_dataloader: 
   dataset: 
     transforms:
       policy:
-        epoch: [10, 25, 40]   # 👈 scaled down from [4,49,90]
+        epoch: [10, 25, 40]
 
   collate_fn:
-    mixup_epochs: [10, 25]   # 👈 scaled down
-    stop_epoch: 40           # 👈 sync w/ augment policy
+    mixup_epochs: [10, 25]
+    stop_epoch: 40
