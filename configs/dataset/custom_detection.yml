@@ -4,14 +4,14 @@ evaluator:
   type: CocoEvaluator
   iou_types: ['bbox', ]
 
-num_classes: 40 # your dataset classes
+num_classes: 41 # your dataset classes
 remap_mscoco_category: False
 
 train_dataloader:
   type: DataLoader
   dataset:
     type: CocoDetection
-    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset
+    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/images/train
     ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/annotations/instances_train.json
     return_masks: False
     transforms:
@@ -28,7 +28,7 @@ val_dataloader:
   type: DataLoader
   dataset:
     type: CocoDetection
-    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset
+    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/images/val
     ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/annotations/instances_val.json
     return_masks: False
     transforms:
