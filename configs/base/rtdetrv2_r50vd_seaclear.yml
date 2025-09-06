@@ -28,7 +28,7 @@ PResNet:
   num_stages: 4
   freeze_norm: True
   pretrained: True
-  local_model_dir: /home/rbu/Comparison_Paper_Object_Detection/DEIM/checkpoints/deim_rtdetrv2_r50vd_m_coco_60e.pth
+  local_model_dir: /home/rbu/Comparison_Paper_Object_Detection/DEIM/checkpoints/rtdetrv2/deim_rtdetrv2_r50vd_m_coco_60e.pth
 
 HybridEncoder:
   in_channels: [512, 1024, 2048]
