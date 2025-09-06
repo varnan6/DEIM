@@ -23,7 +23,7 @@ train_dataloader:
     stop_epoch: 25        # 👈 match with policy above
 
   shuffle: True
-  total_batch_size: 16   # 👈 safe universal batch size (fits all models on 4090)
+  total_batch_size: 8   # 👈 safe universal batch size (fits all models on 4090)
   num_workers: 8         # 👈 enough parallelism, stable on your CPU
 
 val_dataloader:
