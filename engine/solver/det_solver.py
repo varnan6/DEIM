@@ -59,12 +59,18 @@ class DetSolver(BaseSolver):
                 print(f'best_stat: {best_stat}')
 
         best_stat_print = best_stat.copy()
+
+        # ===== Early stopping setup =====
+        patience = getattr(args, 'early_stopping_patience', 10)  # default 10
+        patience_counter = 0
+        metric_name = getattr(args, 'early_stopping_metric', 'mAP')  # validation metric
+        best_val = 0.0
+
         start_time = time.time()
         start_epoch = self.last_epoch + 1
         for epoch in range(start_epoch, args.epoches):
 
             self.train_dataloader.set_epoch(epoch)
-            # self.train_dataloader.dataset.set_epoch(epoch)
             if dist_utils.is_dist_available_and_initialized():
                 self.train_dataloader.sampler.set_epoch(epoch)
 
@@ -98,7 +104,6 @@ class DetSolver(BaseSolver):
 
             if self.output_dir and epoch < self.train_dataloader.collate_fn.stop_epoch:
                 checkpoint_paths = [self.output_dir / 'last.pth']
-                # extra checkpoint before LR drop and every 100 epochs
                 if (epoch + 1) % args.checkpoint_freq == 0:
                     checkpoint_paths.append(self.output_dir / f'checkpoint{epoch:04}.pth')
                 for checkpoint_path in checkpoint_paths:
@@ -113,6 +118,19 @@ class DetSolver(BaseSolver):
                 self.evaluator,
                 self.device
             )
+
+            # ----- Early stopping check -----
+            if metric_name in test_stats:
+                current_val = test_stats[metric_name][0]
+                if current_val > best_val:
+                    best_val = current_val
+                    patience_counter = 0
+                else:
+                    patience_counter += 1
+
+                if patience_counter >= patience:
+                    print(f"Validation plateau reached at epoch {epoch}, stopping early. Best {metric_name}={best_val:.4f}")
+                    break
 
             # TODO
             for k in test_stats:
