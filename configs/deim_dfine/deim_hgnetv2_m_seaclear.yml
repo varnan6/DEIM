@@ -21,7 +21,7 @@ optimizer:
   weight_decay: 0.0001
 
 # Shared protocol schedule
-epoches: 150          # max epochs
+epoches: 200          # max epochs
 flat_epoch: 10        # halfway point
 no_aug_epoch: 2       # last 2 epochs w/o aug
 
