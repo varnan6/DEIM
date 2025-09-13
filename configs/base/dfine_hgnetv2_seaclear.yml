@@ -22,7 +22,7 @@ no_aug_epoch: 5      # 👈 last 5 epochs w/o aug
 
 HGNetv2:
   pretrained: True
-  local_model_dir: /home/rbu/Comparison_Paper_Object_Detection/DEIM_varnan/DEIM/checkpoints/dfine/deim_dfine_hgnetv2_n_coco_160e.pth 
+  local_model_dir: /home/rbu/Comparison_Paper_Object_Detection/DEIM/checkpoints/deim_dfine_hgnetv2_x_coco_50e.pth
 
 HybridEncoder:
   in_channels: [512, 1024, 2048]

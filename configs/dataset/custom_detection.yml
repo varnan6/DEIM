@@ -11,8 +11,8 @@ train_dataloader:
   type: DataLoader
   dataset:
     type: CocoDetection
-    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/images/train
-    ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/annotations/instances_train.json
+    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear_Marine_Debris_Dataset/images/train
+    ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear_Marine_Debris_Dataset/annotations/instances_train.json
     return_masks: False
     transforms:
       type: Compose
@@ -28,8 +28,8 @@ val_dataloader:
   type: DataLoader
   dataset:
     type: CocoDetection
-    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/images/val
-    ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear Marine Debris Dataset/annotations/instances_val.json
+    img_folder: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear_Marine_Debris_Dataset/images/val
+    ann_file: /home/rbu/Comparison_Paper_Object_Detection/Dataset/Seaclear_Marine_Debris_Dataset/annotations/instances_val.json
     return_masks: False
     transforms:
       type: Compose

@@ -1,0 +1,35 @@
+__include__: [
+  './rtdetrv2_r101vd_6x_seaclear.yml',
+  '../base/rt_deim.yml',
+]
+
+output_dir: ./outputs/deim_rtdetrv2_r101vd_60e_coco
+
+optimizer:
+  type: AdamW
+  params: 
+    - params: '^(?=.*backbone)(?!.*norm).*$'
+      lr: 0.000002
+    - params: '^(?=.*(?:norm|bn)).*$'
+      weight_decay: 0.
+  lr: 0.0002
+  betas: [0.9, 0.999]
+  weight_decay: 0.0001
+
+# change part
+epoches: 250
+flat_epoch: 34    # 4 + 60 / 2
+no_aug_epoch: 2
+
+early_stopping:
+  metric: 'mAP'      # validation metric to monitor
+  patience: 10       # stop if no improvement for 10 epochs
+
+train_dataloader: 
+  dataset: 
+    transforms:
+      policy:
+        epoch: [4, 34, 58]   # list       
+  collate_fn:
+    mixup_epochs: [4, 34]
+    stop_epoch: 58
