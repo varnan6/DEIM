@@ -1,10 +1,10 @@
 __include__: [
-  './dfine_hgnetv2_x_coco.yml',
+  './dfine_hgnetv2_x_seaclear.yml',
   '../base/deim.yml',
   '../base/dataloader.yml'
 ]
 
-output_dir: ./outputs/deim_hgnetv2_x_coco
+output_dir: ./outputs/deim_hgnetv2_x_seaclear
   
 optimizer:
   type: AdamW
@@ -21,18 +21,18 @@ optimizer:
   weight_decay: 0.000125
   
 # Increase to search for the optimal ema
-epoches: 58 # 72 + 2n
+epoches: 200
 
 ## Our LR-Scheduler
-flat_epoch: 29    # 4 + epoch // 2, e.g., 40 = 4 + 72 / 2
-no_aug_epoch: 8
+flat_epoch: 10
+no_aug_epoch: 2
 
 train_dataloader: 
   dataset: 
     transforms:
       policy:
-        epoch: [4, 29, 50]   # list 
+        epoch: [10, 25, 40]
 
   collate_fn:
-    mixup_epochs: [4, 29]
-    stop_epoch: 50
+    mixup_epochs: [10, 25]
+    stop_epoch: 40
